@@ -36,7 +36,7 @@ public class LoanService {
         if(book.getStatus().equals("대출가능")) {
             LocalDate localDate = LocalDate.now();
             int loanLimit = 100;
-            LocalDate dueDate = localDate;
+            LocalDate dueDate;
             if (member.getFeature().equals("학생")) {
                 dueDate = localDate.plusDays(10);
                 loanLimit = 10;
@@ -49,7 +49,7 @@ public class LoanService {
                 dueDate = localDate.plusDays(110813);
             }
 
-            if (loanRepository.findAllByMember(member).size() < loanLimit) {
+            if (loanRepository.findAllByMember(member).size() >= loanLimit) {
                 throw new InputMismatchException("대출 한도를 초과했습니다.");
             }
             else {
@@ -65,6 +65,7 @@ public class LoanService {
                         .book(book)
                         .build();
                 loanRepository.save(loan);
+                book.update("대출중");
                 loanResponse = LoanAllLoansResponse.from(loan);
             }
         }

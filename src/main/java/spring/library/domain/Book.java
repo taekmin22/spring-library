@@ -61,4 +61,8 @@ public class Book {
         amount = bookRequest.getAmount();
     }
 
+    public void update(String status) {
+        this.status = status;
+    }
+
 }
