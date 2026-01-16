@@ -49,7 +49,7 @@ public class LoanService {
                 dueDate = localDate.plusDays(110813);
             }
 
-            if (loanRepository.findAllByMember(member).size() >= loanLimit) {
+            if (loanRepository.findAllByMemberAndIsReturnedIsFalse(member).size() >= loanLimit) {
                 throw new InputMismatchException("대출 한도를 초과했습니다.");
             }
             else {
